@@ -88,6 +88,8 @@ namespace Exam_Dashboard.Api.Controllers
         {
             var data = _dbContext.Exams
                 .Include(x=>x.Lesson)
+                .Include(x=>x.ExamPupils)
+                .ThenInclude(x=>x.Pupil)
                
                 .Select(x=>new GetExamDTO
                 {

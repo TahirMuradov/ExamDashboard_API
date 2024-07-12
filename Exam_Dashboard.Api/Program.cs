@@ -113,13 +113,29 @@ auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     };
 });
 #endregion
+
+var corsRuls = "http://localhost:3000";
+
+
+builder.Services.AddCors(o =>
+{
+    o.AddPolicy(corsRuls,
+         p =>
+         {
+             p.AllowAnyHeader();
+             p.AllowAnyMethod();
+             p.AllowAnyOrigin();
+         }
+        );
+});
+
 //builder.Services.AddControllers()
 //    .AddJsonOptions(options =>
 //    {
 //        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 //    });
 var app = builder.Build();
-
+app.UseCors(corsRuls);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

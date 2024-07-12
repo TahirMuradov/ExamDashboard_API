@@ -11,8 +11,8 @@ namespace Exam_Dashboard.Api.FluentValidation.ExamDTOValidator
 
          
 
-            RuleFor(exam => exam.ExamDate)
-                .GreaterThan(DateTime.Now);
+            //RuleFor(exam => exam.ExamDate)
+            //    .GreaterThan(DateTime.Now);
 
             RuleFor(exam => exam.Grade)
                 .InclusiveBetween(0, 10);
