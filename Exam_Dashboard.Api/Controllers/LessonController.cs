@@ -21,7 +21,17 @@ namespace Exam_Dashboard.Api.Controllers
         [HttpGet("[action]")]
         public IActionResult GetAllLesson()
         {
-            var data =_dbContext.Lessons.AsNoTracking().AsSplitQuery().AsQueryable();
+            //var data =_dbContext.Lessons.AsNoTracking().AsSplitQuery().AsQueryable();
+            var data=_dbContext.Lessons.Include(x=>x.Exams).Select(x=>new GetLessonDTO
+            {
+                Class = x.Class,
+                Id = x.Id,
+                LessonCode = x.LessonCode,
+                LessonName = x.LessonName,
+                TeacherName = x.TeacherFirstName+" "+x.TeacherLastName,
+                ExamsDate=x.Exams.Select(y=>y.ExamDate).ToList()
+                
+            }).ToList();
             return Ok(data);
         }
         [HttpPost("[action]")]
