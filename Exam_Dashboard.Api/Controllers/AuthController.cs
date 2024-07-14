@@ -2,13 +2,9 @@
 using Exam_Dashboard.Api.FluentValidation.AuthDTOValidtor;
 using Exam_Dashboard.Api.Models;
 using Exam_Dashboard.Api.Security.Abstract;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Net.Security;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+
 
 namespace Exam_Dashboard.Api.Controllers
 {
@@ -69,6 +65,7 @@ namespace Exam_Dashboard.Api.Controllers
                 return NotFound("User Is NotFound");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, true);
+
             var roles = await _userManager.GetRolesAsync(user);
 
             if (result.Succeeded)
@@ -84,8 +81,19 @@ namespace Exam_Dashboard.Api.Controllers
             }
             return BadRequest();
         }
-
-      
+        [HttpPut("[action]")]
+      public async Task<IActionResult> Logout(string token)
+        {
+            if (token == null) return Unauthorized();
+            var userId = _tokenService.TokenDecoded(token);
+       ;
+           var findUser=await _userManager.FindByIdAsync(userId);
+            if (findUser == null) return Unauthorized("User is NotFound!");
+            findUser.RefreshToken = null;
+            await _userManager.UpdateAsync(findUser);
+                      
+            return Ok();
+        }
   
 
     }

@@ -2,7 +2,7 @@
 using Exam_Dashboard.Api.DTOs.ExamDTOs;
 using Exam_Dashboard.Api.FluentValidation.ExamDTOValidator;
 using Exam_Dashboard.Api.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +10,7 @@ namespace Exam_Dashboard.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ExamController : ControllerBase
     {
         private readonly AppDBContext _dbContext;

@@ -55,6 +55,7 @@ namespace Exam_Dashboard.Api.Security.Concrete
             JwtSecurityTokenHandler tokenHandler = new();
 
             token.AccessToken = tokenHandler.WriteToken(securityToken);
+            
             token.RefreshToken = CreateRefreshToken();
 
 
@@ -69,6 +70,17 @@ namespace Exam_Dashboard.Api.Security.Concrete
             using RandomNumberGenerator random = RandomNumberGenerator.Create();
             random.GetBytes(number);
             return Convert.ToBase64String(number);
+        }
+
+        public string TokenDecoded(string token)
+        {
+            if (string.IsNullOrEmpty(token)) return null;
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+            return jsonToken==null? null:
+                 jsonToken.Claims.FirstOrDefault(x => x.Type == "Id")?.Value;
+               
+            
         }
 
         public async Task<string> UpdateRefreshTokenAsync(string refreshToken, User user)

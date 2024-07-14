@@ -2,6 +2,7 @@
 using Exam_Dashboard.Api.DTOs.PupilDTO;
 using Exam_Dashboard.Api.FluentValidation.PupilValidationDTOs;
 using Exam_Dashboard.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,7 @@ namespace Exam_Dashboard.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PupilController : ControllerBase
     {
         private readonly AppDBContext _dbContext;
